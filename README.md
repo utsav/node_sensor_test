@@ -10,4 +10,4 @@
 
 # Some other info
 - Panel to show sensor's template data: localhost:3000/
-- API to send sensor data -> localhost:3000/api/temprature -> request body -> { sensorId, temprature }
+- API to send sensor data -> https://www.getpostman.com/collections/16f79f7982b2c6eed42f
