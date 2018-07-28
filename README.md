@@ -1,4 +1,4 @@
-# A simple node app to store sensor temprature data
+# A simple node app to store sensor temperature data
 
 # Requirements
 - NodeJs >= 6.1
