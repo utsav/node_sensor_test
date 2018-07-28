@@ -7,3 +7,7 @@
 # To start
 - npm install
 - npm start
+
+# Some other info
+- Panel to show sensor's template data: localhost:3000/
+- API to send sensor data -> localhost:3000/api/temprature -> request body -> { sensorId, temprature }
