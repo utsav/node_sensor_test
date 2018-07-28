@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Sensor Data Reading</title>
+    <script src="/js/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.1.1/socket.io.js"></script>
+    <style type="text/css">
+      table {
+          font-family: arial, sans-serif;
+          border-collapse: collapse;
+          width: 100%;
+      }
+      td, th {
+          border: 1px solid #dddddd;
+          text-align: left;
+          padding: 8px;
+      }
+      tr:nth-child(even) {
+          background-color: #dddddd;
+      }
+    </style>
+</head>
+    <body>
+      
+      <div ng-app="myApp" ng-controller="myCtrl">
+        <h1>Sensor Data</h1>
+        <table>
+          <tr>
+            <th>Sensor Id</th>
+            <th>Temprature</th>
+          </tr>
+          <tr ng-repeat="sensor in sensors">
+            <td>{{sensor.sensorId}}</td>
+            <td>{{sensor.temprature}}</td>
+          </tr>
+        </table>
+      </div>
+      <script>
+          var app = angular.module('myApp', []);
+          var socket = io('http://localhost:3001');
+          app.controller('myCtrl', function($scope, $http) {
+              $scope.sensors = [];
+
+              $http.get("/api/sensors").then(function(response){
+                $scope.sensors = response.data;
+              });
+
+              socket.on('connect', function() {
+                socket.on("sensor", function(data) {
+                  $scope.sensors.forEach(function(sensor){
+                    if (sensor.sensorId === data.sensorId  ) {
+                      sensor.temprature = data.temprature;
+                      $scope.$apply();
+                      return;
+                    }
+                  });
+                });
+              });
+          });
+      </script>
+    </body>
+</html>
