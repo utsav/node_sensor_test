@@ -51,13 +51,20 @@
 
               socket.on('connect', function() {
                 socket.on("sensor", function(data) {
+                  let change = false;
                   $scope.sensors.forEach(function(sensor){
-                    if (sensor.sensorId === data.sensorId  ) {
+                    if (sensor.sensorId === data.sensorId) {
+                      change = true;
                       sensor.temprature = data.temprature;
-                      $scope.$apply();
                       return;
                     }
                   });
+
+                  if (!change) {
+                    $scope.sensors.push(data);
+                  }
+
+                  $scope.$apply();
                 });
               });
           });
